@@ -1,0 +1,6 @@
+@GeorgiaTechLibraryProject_HostAddress = http://localhost:5034
+
+GET {{GeorgiaTechLibraryProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

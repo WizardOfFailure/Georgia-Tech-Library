@@ -1,0 +1,6 @@
+@GeogiaTech.Product.API_HostAddress = http://localhost:5211
+
+GET {{GeogiaTech.Product.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

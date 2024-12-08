@@ -1,0 +1,57 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific folders
+.vscode/
+
+# Build output
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+*.tlog
+*.vspscc
+*.vspcc
+
+# Visual Studio 2019+
+.vs/
+
+# Crash dumps
+*.mdmp
+*.hdmp
+
+# Package directories
+packages/
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+*.stackdump
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Node.js modules
+node_modules/
+
+# Visual Studio Code
+.vscode/
+
+# Local history for JetBrains IDEs
+.idea/
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*.tmp
