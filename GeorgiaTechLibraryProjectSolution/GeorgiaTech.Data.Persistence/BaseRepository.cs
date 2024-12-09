@@ -18,4 +18,4 @@ namespace GeorgiaTech.Data.Persistence
         protected DataContext dataContext { get; private set; }
     }
 }
-}
+

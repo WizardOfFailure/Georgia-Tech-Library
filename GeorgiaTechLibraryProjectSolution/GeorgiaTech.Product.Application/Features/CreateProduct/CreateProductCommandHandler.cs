@@ -16,9 +16,9 @@ namespace GeorgiaTech.Product.Application.Features.CreateProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly ILogger<CreateProductCommandHandler> _logger;
-        public CreateProductCommandHandler(ILogger<CreateProductCommandHandler> logger, IProductRepository reviewRepository)
+        public CreateProductCommandHandler(ILogger<CreateProductCommandHandler> logger, IProductRepository productRepository)
         {
-            this._productRepository = _productRepository;
+            this._productRepository = productRepository;
             this._logger = logger;
         }
         public async Task<Result> Handle(CreateProductCommand command, CancellationToken cancellationToken = default)
@@ -31,8 +31,10 @@ namespace GeorgiaTech.Product.Application.Features.CreateProduct
             }
             catch (Exception ex)
             {
+
                 this._logger.LogCritical(ex, ex.Message);
                 return Result.Fail(Errors.General.FromException(ex));
+                
             }
         }
     }

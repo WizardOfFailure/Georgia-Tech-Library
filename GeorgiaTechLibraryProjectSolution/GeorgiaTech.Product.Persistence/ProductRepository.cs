@@ -23,7 +23,7 @@ namespace GeorgiaTech.Product.Persistence
         {
             try
             {
-                string sql = $"insert into {this.TableName} (productid, userid, title, created) values (@pid, @uid, @title)";
+                string sql = $"insert into {this.TableName} (productid, userid, title) values (@pid, @uid, @title)";
                 using (var connection = dataContext.CreateConnection())
                 {
                     await connection.ExecuteAsync(sql, new { pid = entity.ProductId, uid = entity.UserId, title = entity.Title });

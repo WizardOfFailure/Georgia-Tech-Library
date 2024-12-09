@@ -13,6 +13,8 @@ namespace GeorgiaTech.Domain.Common
         {
             public static Error GeneralError(string message) => new Error("general.error", message);
             public static Error ValueIsRequired(string valueName) => new Error("value.is.required", $"Value '{valueName}' is required.");
+
+            public static Error FromException(Exception exception) => new Error("exception", exception.Message, 500);
         }
         public static class Validation
         {

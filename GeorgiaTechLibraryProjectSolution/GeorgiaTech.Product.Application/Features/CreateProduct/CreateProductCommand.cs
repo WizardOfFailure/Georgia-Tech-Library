@@ -8,7 +8,7 @@ using GeorgiaTech.Application.Contracts;
 
 namespace GeorgiaTech.Product.Application.Features.CreateProduct
 {
-    public class CreateProductCommand
+    public class CreateProductCommand : ICommand
     {
         public CreateProductCommand(int productId, int userId, string title)
         {
