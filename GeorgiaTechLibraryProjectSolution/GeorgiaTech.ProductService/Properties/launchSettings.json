@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GeorgiaTech.ProductService": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

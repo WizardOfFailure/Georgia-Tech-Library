@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 
-namespace GeorgiaTech.Messaging
+namespace GeorgiaTech.ProductService
 {
-    public class ProductProducerMessaging
+    public class ProduceMessage
     {
         public async void ProduceProductMessage()
         {

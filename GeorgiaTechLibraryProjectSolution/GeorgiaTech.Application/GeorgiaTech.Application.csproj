@@ -125,7 +125,6 @@
     <Compile Include="Contracts\ICommandHandler.cs" />
     <Compile Include="Contracts\IDispatcher.cs" />
     <Compile Include="Contracts\IQuery.cs" />
-    <Compile Include="Contracts\IQuery1.cs" />
     <Compile Include="Contracts\IQueryHandler.cs" />
     <Compile Include="Contracts\ICommand.cs" />
     <Compile Include="Contracts\Persistence\IRepository.cs" />

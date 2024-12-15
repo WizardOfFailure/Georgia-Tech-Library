@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GeorgiaTech.InventoryService": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

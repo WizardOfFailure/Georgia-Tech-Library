@@ -8,7 +8,8 @@ using GeorgiaTech.Domain.Common;
 
 namespace GeorgiaTech.Application.Contracts
 {
-    public interface IQuery : IRequest<Result<T>>
+    public interface IQuery<T> : IRequest<Result<T>>
     {
+
     }
 }

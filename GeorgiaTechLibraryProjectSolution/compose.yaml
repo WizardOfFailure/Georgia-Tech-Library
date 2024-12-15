@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  georgiatechlibraryproject:
+    build:
+      context: ./GeorgiaTechLibraryProject
+      dockerfile: Dockerfile
+    container_name: GeorgiaTechLibraryProject
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbitmq
+
+  georgiatechlibrary.productservicegatway:
+    build:
+      context: ./GeorgiaTechLibrary.ProductServiceGatway
+      dockerfile: Dockerfile
+    container_name: GeorgiaTechLibrary.ProductServiceGatway
+    ports:
+      - "5001:5001"
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest

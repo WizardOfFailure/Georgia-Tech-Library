@@ -37,6 +37,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{0D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeorgiaTech.Messaging", "GeorgiaTech.MessagingProducer\GeorgiaTech.Messaging.csproj", "{A11874D0-1343-41E5-8896-E0A72A1956C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeorgiaTech.ProductService", "GeorgiaTech.ProductService\GeorgiaTech.ProductService.csproj", "{8277EC30-3F49-4861-AD5C-21F92D6CA466}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeorgiaTech.InventoryService", "GeorgiaTech.InventoryService\GeorgiaTech.InventoryService.csproj", "{D6692A03-751C-4673-B4AE-EC55B2627918}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,14 @@ Global
 		{A11874D0-1343-41E5-8896-E0A72A1956C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A11874D0-1343-41E5-8896-E0A72A1956C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A11874D0-1343-41E5-8896-E0A72A1956C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8277EC30-3F49-4861-AD5C-21F92D6CA466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8277EC30-3F49-4861-AD5C-21F92D6CA466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8277EC30-3F49-4861-AD5C-21F92D6CA466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8277EC30-3F49-4861-AD5C-21F92D6CA466}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6692A03-751C-4673-B4AE-EC55B2627918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6692A03-751C-4673-B4AE-EC55B2627918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6692A03-751C-4673-B4AE-EC55B2627918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6692A03-751C-4673-B4AE-EC55B2627918}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +109,7 @@ Global
 		{E649B97C-8155-4791-8807-4EDF9988A76D} = {0858509F-1426-4D9F-BBE7-E512F4AEAEBD}
 		{44FDBCB5-635B-4EC9-81AE-819CADB4A4E7} = {0858509F-1426-4D9F-BBE7-E512F4AEAEBD}
 		{A11874D0-1343-41E5-8896-E0A72A1956C3} = {87273A71-6904-4220-BAFC-A824C2F0A26C}
+		{8277EC30-3F49-4861-AD5C-21F92D6CA466} = {87273A71-6904-4220-BAFC-A824C2F0A26C}
+		{D6692A03-751C-4673-B4AE-EC55B2627918} = {87273A71-6904-4220-BAFC-A824C2F0A26C}
 	EndGlobalSection
 EndGlobal

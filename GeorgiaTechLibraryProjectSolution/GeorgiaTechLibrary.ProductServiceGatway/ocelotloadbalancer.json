@@ -13,7 +13,7 @@
                     "Port": 8087
                 }
             ],
-            "UpstreamPathTemplate": "/reviewservice/{everything}",
+            "UpstreamPathTemplate": "/productservice/{everything}",
             "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
             "LoadBalancerOptions": {
                 "Type": "RoundRobin"
