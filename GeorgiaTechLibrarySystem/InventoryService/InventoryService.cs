@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Connections;
+using PrometheusMonitoring;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -9,6 +10,7 @@ namespace InventoryService
 {
     public class InventoryService
     {
+
         public async void ReceiveMessage()
         {
             var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };

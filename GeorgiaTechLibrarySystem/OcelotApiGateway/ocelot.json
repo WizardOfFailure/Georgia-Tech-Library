@@ -18,10 +18,10 @@
                 "TtlSeconds": 15,
                 "Region": "product",
                 "Header": "OC-Caching-Control",
-                "EnableContentHashing": false // my route has GET verb only, assigning 'true' for requests with body: POST, PUT etc.
+                "EnableContentHashing": false
             },
             "LoadBalancerOptions": {
-                "Type": "LeastConnection"
+                "Type": "RoundRobin"
             },
             "DangerousAcceptAnyServerCertificateValidator": true
         },
@@ -40,10 +40,10 @@
                 "TtlSeconds": 15,
                 "Region": "inventory",
                 "Header": "OC-Caching-Control",
-                "EnableContentHashing": false // my route has GET verb only, assigning 'true' for requests with body: POST, PUT etc.
+                "EnableContentHashing": false 
             },
             "LoadBalancerOptions": {
-                "Type": "LeastConnection"
+                "Type": "RoundRobin"
             },
             "DangerousAcceptAnyServerCertificateValidator": true
 
@@ -63,10 +63,10 @@
                 "TtlSeconds": 15,
                 "Region": "product",
                 "Header": "OC-Caching-Control",
-                "EnableContentHashing": false // my route has GET verb only, assigning 'true' for requests with body: POST, PUT etc.
+                "EnableContentHashing": false
             },
             "LoadBalancerOptions": {
-                "Type": "LeastConnection"
+                "Type": "RoundRobin"
             },
             "DangerousAcceptAnyServerCertificateValidator": true
         },
@@ -85,10 +85,10 @@
                 "TtlSeconds": 15,
                 "Region": "inventory",
                 "Header": "OC-Caching-Control",
-                "EnableContentHashing": false // my route has GET verb only, assigning 'true' for requests with body: POST, PUT etc.
+                "EnableContentHashing": false 
             },
             "LoadBalancerOptions": {
-                "Type": "LeastConnection"
+                "Type": "RoundRobin"
             },
             "DangerousAcceptAnyServerCertificateValidator": true
 

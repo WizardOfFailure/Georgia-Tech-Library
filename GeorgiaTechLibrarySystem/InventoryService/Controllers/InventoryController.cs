@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PrometheusMonitoring;
 
 namespace InventoryService.Controllers
 {
@@ -6,6 +7,12 @@ namespace InventoryService.Controllers
     [Route("api/[controller]")]
     public class InventoryController : Controller
     {
+        private readonly PerformanceMetricsService _metricsService;
+        public InventoryController(PerformanceMetricsService metricsService)
+        {
+            _metricsService = metricsService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -47,6 +54,7 @@ namespace InventoryService.Controllers
         {
             InventoryService inventoryService = new InventoryService();
             inventoryService.ReceivePublishSubscribeSagaMessage();
+            _metricsService.RecordRequest();
             return Ok();
         }
     }
