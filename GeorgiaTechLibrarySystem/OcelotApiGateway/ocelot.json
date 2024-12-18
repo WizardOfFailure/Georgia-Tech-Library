@@ -1,0 +1,98 @@
+{
+    "GlobalConfiguration": {
+        "RequestIdKey": "OcRequestId"
+    },
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/api/c/product/SendPublishSubscribeMessage",
+            "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+            "DownstreamPathTemplate": "/api/product/SendPublishSubscribeMessage",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "ProductService_1",
+                    "Port": 8081
+                }
+            ],
+            "FileCacheOptions": {
+                "TtlSeconds": 15,
+                "Region": "product",
+                "Header": "OC-Caching-Control",
+                "EnableContentHashing": false
+            },
+            "LoadBalancerOptions": {
+                "Type": "RoundRobin"
+            },
+            "DangerousAcceptAnyServerCertificateValidator": true
+        },
+        {
+            "UpstreamPathTemplate": "/api/c/inventory/ReceivePublishSubscribeMessage",
+            "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+            "DownstreamPathTemplate": "/api/inventory/ReceivePublishSubscribeMessage",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "InventoryService",
+                    "Port": 8081
+                }
+            ],
+            "FileCacheOptions": {
+                "TtlSeconds": 15,
+                "Region": "inventory",
+                "Header": "OC-Caching-Control",
+                "EnableContentHashing": false 
+            },
+            "LoadBalancerOptions": {
+                "Type": "RoundRobin"
+            },
+            "DangerousAcceptAnyServerCertificateValidator": true
+
+        },
+        {
+            "UpstreamPathTemplate": "/api/c/product/SendPublishSubscribeSagaMessage",
+            "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+            "DownstreamPathTemplate": "/api/product/SendPublishSubscribeSagaMessage",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "ProductService_1",
+                    "Port": 8081
+                }
+            ],
+            "FileCacheOptions": {
+                "TtlSeconds": 15,
+                "Region": "product",
+                "Header": "OC-Caching-Control",
+                "EnableContentHashing": false
+            },
+            "LoadBalancerOptions": {
+                "Type": "RoundRobin"
+            },
+            "DangerousAcceptAnyServerCertificateValidator": true
+        },
+        {
+            "UpstreamPathTemplate": "/api/c/inventory/ReceivePublishSubscribeSagaMessage",
+            "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+            "DownstreamPathTemplate": "/api/inventory/ReceivePublishSubscribeSagaMessage",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "InventoryService",
+                    "Port": 8081
+                }
+            ],
+            "FileCacheOptions": {
+                "TtlSeconds": 15,
+                "Region": "inventory",
+                "Header": "OC-Caching-Control",
+                "EnableContentHashing": false 
+            },
+            "LoadBalancerOptions": {
+                "Type": "RoundRobin"
+            },
+            "DangerousAcceptAnyServerCertificateValidator": true
+
+
+        }
+    ]
+}
