@@ -16,8 +16,10 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Start containers
+      working-directory: ./GeorgiaTechLibrarySystem
       run: docker compose -f "docker-compose.yml" up -d --build
       
     - name: Stop containers
+      working-directory: ./GeorgiaTechLibrarySystem
       if: always()
       run: docker compose -f "docker-compose.yml" down
