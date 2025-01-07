@@ -10,7 +10,7 @@
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "ProductService_1",
+                    "Host": "product-service",
                     "Port": 8081
                 }
             ],
@@ -32,7 +32,7 @@
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "InventoryService",
+                    "Host": "inventory-service",
                     "Port": 8081
                 }
             ],
@@ -55,7 +55,7 @@
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "ProductService_1",
+                    "Host": "product-service",
                     "Port": 8081
                 }
             ],
@@ -77,7 +77,7 @@
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "InventoryService",
+                    "Host": "inventory-service",
                     "Port": 8081
                 }
             ],

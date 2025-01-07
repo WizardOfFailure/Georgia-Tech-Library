@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PrometheusMonitoring;
+
 
 namespace ProductService.Controllers
 {
@@ -8,12 +8,12 @@ namespace ProductService.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly PerformanceMetricsService _metricsService;
+        //private readonly PerformanceMetricsService _metricsService;
 
-        public ProductController(ILogger<ProductController> logger, PerformanceMetricsService metricsService)
+        public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
-            _metricsService = metricsService;
+            //_metricsService = metricsService;
         }
         /*
         public IActionResult Index()
@@ -28,23 +28,23 @@ namespace ProductService.Controllers
             return Accepted(); //Change this
         }*/
 
-        [HttpPost]
-        [Route("SendMessage")]
-        public IActionResult PostMessage()
-        {
-            ProductService productService = new ProductService();
-            productService.ProduceMessage();
-            return Accepted(); //Change this
-        }
+        //[HttpPost]
+        //[Route("SendMessage")]
+        //public IActionResult PostMessage()
+        //{
+        //    ProductService productService = new ProductService();
+        //    productService.ProduceMessage();
+        //    return Accepted(); 
+        //}
 
-        [HttpPost]
-        [Route("SendBasicMessage")]
-        public IActionResult PostBasicMessage()
-        {
-            ProductService productService = new ProductService();
-            productService.ProduceBasicMessage();
-            return Accepted(); //Change this
-        }
+        //[HttpPost]
+        //[Route("SendBasicMessage")]
+        //public IActionResult PostBasicMessage()
+        //{
+        //    ProductService productService = new ProductService();
+        //    productService.ProduceBasicMessage();
+        //    return Accepted(); 
+        //}
 
         [HttpPost]
         [Route("SendPublishSubscribeMessage")]
@@ -52,7 +52,7 @@ namespace ProductService.Controllers
         {
             ProductService productService = new ProductService();
             productService.ProducePublishSubscribeMessage();
-            return Accepted(); //Change this
+            return Accepted(); 
         }
 
         [HttpPost]
@@ -61,8 +61,7 @@ namespace ProductService.Controllers
         {
             ProductService productService = new ProductService();
             productService.ProducePublishSubscribeSagaMessage();
-            _metricsService.RecordRequest();
-            return Accepted(); //Change this
+            return Accepted();
         }
 
     }

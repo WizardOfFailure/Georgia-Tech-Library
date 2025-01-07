@@ -1,6 +1,6 @@
 @ProductService_HostAddress = http://localhost:5240
 
-GET {{ProductService_HostAddress}}/weatherforecast/
+GET {{ProductService_HostAddress}}/productservice/
 Accept: application/json
 
 ###

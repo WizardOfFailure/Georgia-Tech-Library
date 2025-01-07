@@ -2,6 +2,7 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -9,68 +10,62 @@ namespace ProductService
 {
     public class ProductService
     {
-        /*public void HandleBookAdded(BookAddedEvent event){
+        //public async void ProduceMessage()
+        //{
+        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port= 5672 };
+        //    var connection = await factory.CreateConnectionAsync();
+        //    var channel = await connection.CreateChannelAsync();
 
-            var productStatus = event.S
-        }*/
+        //    await channel.QueueDeclareAsync(queue: "Product_Queue", durable: true, exclusive: false, autoDelete: false,
+        //    arguments: null);
 
+        //    await channel.ExchangeDeclareAsync(exchange: "product_direct_exchange", type: ExchangeType.Direct);
 
-        public async void ProduceMessage()
-        {
-            var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port= 5672 };
-            var connection = await factory.CreateConnectionAsync();
-            var channel = await connection.CreateChannelAsync();
+        //    var message = "Book has been added";
+        //    var body = Encoding.UTF8.GetBytes(message);
 
-            await channel.QueueDeclareAsync(queue: "Product_Queue", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
+        //    await channel.BasicPublishAsync(exchange: "product_direct_exchange", routingKey: "Product_Queue", body: body);
+        //}
 
-            await channel.ExchangeDeclareAsync(exchange: "product_direct_exchange", type: ExchangeType.Direct);
+        //public async void ProduceBasicMessage()
+        //{
+        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
+        //    var connection = await factory.CreateConnectionAsync();
+        //    var channel = await connection.CreateChannelAsync();
 
-            var message = "Book has been added";
-            var body = Encoding.UTF8.GetBytes(message);
+        //    await channel.QueueDeclareAsync(queue: "basicBookQueue", durable: false, exclusive: false, autoDelete: false,
+        //    arguments: null);
 
-            await channel.BasicPublishAsync(exchange: "product_direct_exchange", routingKey: "Product_Queue", body: body);
-        }
+        //    const string message = "Book Added";
+        //    var body = Encoding.UTF8.GetBytes(message);
 
-        public async void ProduceBasicMessage()
-        {
-            var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
-            var connection = await factory.CreateConnectionAsync();
-            var channel = await connection.CreateChannelAsync();
+        //    await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "basicBookQueue", body: body);
+        //    Console.WriteLine($" [x] Sent {message}");
 
-            await channel.QueueDeclareAsync(queue: "basicBookQueue", durable: false, exclusive: false, autoDelete: false,
-            arguments: null);
+        //    Console.WriteLine(" Press [enter] to exit.");
+        //    Console.ReadLine();
+        //}
 
-            const string message = "Book Added";
-            var body = Encoding.UTF8.GetBytes(message);
+        //public async void ProduceTaskMessage()
+        //{
+        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
+        //    var connection = await factory.CreateConnectionAsync();
+        //    var channel = await connection.CreateChannelAsync();
 
-            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "basicBookQueue", body: body);
-            Console.WriteLine($" [x] Sent {message}");
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
-        }
-
-        public async void ProduceTaskMessage()
-        {
-            var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
-            var connection = await factory.CreateConnectionAsync();
-            var channel = await connection.CreateChannelAsync();
-
-            await channel.QueueDeclareAsync(queue: "book_task_queue", durable: true, exclusive: false,
-            autoDelete: false, arguments: null);
+        //    await channel.QueueDeclareAsync(queue: "book_task_queue", durable: true, exclusive: false,
+        //    autoDelete: false, arguments: null);
 
 
-            const string message = "Book Added";
-            var body = Encoding.UTF8.GetBytes(message);
+        //    const string message = "Book Added";
+        //    var body = Encoding.UTF8.GetBytes(message);
 
-            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "book_task_queue", body: body);
-            Console.WriteLine($" [x] Sent {message}");
+        //    await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "book_task_queue", body: body);
+        //    Console.WriteLine($" [x] Sent {message}");
 
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
+        //    Console.WriteLine(" Press [enter] to exit.");
+        //    Console.ReadLine();
 
-        }
+        //}
 
         public async void ProducePublishSubscribeMessage()
         {
@@ -90,19 +85,32 @@ namespace ProductService
             Console.ReadLine();
         }
 
+
         public async void ProducePublishSubscribeSagaMessage()
         {
             var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
             var connection = await factory.CreateConnectionAsync();
             var channel = await connection.CreateChannelAsync();
 
-            // Declare exchange
+            // Declare exchange for book messages
             await channel.ExchangeDeclareAsync(exchange: "saga_books", type: ExchangeType.Fanout);
 
-            var message = "Book added";
+            // Create a book object
+            var book = new Book
+            {
+                BookId = Guid.NewGuid(),
+                Title = "The Great Gatsby",
+                Author = "F. Scott Fitzgerald",
+                Quantity = 1
+            };
+
+            // Serialize book object to JSON
+            var message = JsonSerializer.Serialize(book);
             var body = Encoding.UTF8.GetBytes(message);
+
+            // Publish the message
             await channel.BasicPublishAsync(exchange: "saga_books", routingKey: string.Empty, body: body);
-            Console.WriteLine($" [x] Sent {message}");
+            Console.WriteLine($" [x] Sent book: {message}");
 
             // Listen for compensation events
             await channel.ExchangeDeclareAsync(exchange: "saga_compensation", type: ExchangeType.Fanout);
@@ -110,19 +118,20 @@ namespace ProductService
             await channel.QueueBindAsync(queue: compensationQueue.QueueName, exchange: "saga_compensation", routingKey: string.Empty);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
-            consumer.ReceivedAsync += (model, ea) =>
+            consumer.ReceivedAsync += async (model, ea) =>
             {
                 var compensationBody = ea.Body.ToArray();
                 var compensationMessage = Encoding.UTF8.GetString(compensationBody);
                 Console.WriteLine($" [x] Compensation received: {compensationMessage}");
 
-                // Handle compensation (e.g., remove product)
+                // Deserialize compensation message if necessary
                 if (compensationMessage == "Revert book addition")
                 {
-                    Console.WriteLine(" [!] Reverting book addition.");
+                    Console.WriteLine($" [!] Reverting addition of book: {JsonSerializer.Serialize(book)}");
+                    // Add logic to revert book addition, e.g., remove from database
                 }
 
-                return Task.CompletedTask;
+                await Task.CompletedTask;
             };
 
             await channel.BasicConsumeAsync(compensationQueue.QueueName, autoAck: true, consumer: consumer);
@@ -130,5 +139,47 @@ namespace ProductService
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
         }
+
+
+        //public async void ProducePublishSubscribeSagaMessage()
+        //{
+        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
+        //    var connection = await factory.CreateConnectionAsync();
+        //    var channel = await connection.CreateChannelAsync();
+
+        //    // Declare exchange
+        //    await channel.ExchangeDeclareAsync(exchange: "saga_books", type: ExchangeType.Fanout);
+
+        //    var message = "Book added";
+        //    var body = Encoding.UTF8.GetBytes(message);
+        //    await channel.BasicPublishAsync(exchange: "saga_books", routingKey: string.Empty, body: body);
+        //    Console.WriteLine($" [x] Sent {message}");
+
+        //    // Listen for compensation events
+        //    await channel.ExchangeDeclareAsync(exchange: "saga_compensation", type: ExchangeType.Fanout);
+        //    var compensationQueue = await channel.QueueDeclareAsync();
+        //    await channel.QueueBindAsync(queue: compensationQueue.QueueName, exchange: "saga_compensation", routingKey: string.Empty);
+
+        //    var consumer = new AsyncEventingBasicConsumer(channel);
+        //    consumer.ReceivedAsync += (model, ea) =>
+        //    {
+        //        var compensationBody = ea.Body.ToArray();
+        //        var compensationMessage = Encoding.UTF8.GetString(compensationBody);
+        //        Console.WriteLine($" [x] Compensation received: {compensationMessage}");
+
+        //        // Handle compensation (e.g., remove product)
+        //        if (compensationMessage == "Revert book addition")
+        //        {
+        //            Console.WriteLine(" [!] Reverting book addition.");
+        //        }
+
+        //        return Task.CompletedTask;
+        //    };
+
+        //    await channel.BasicConsumeAsync(compensationQueue.QueueName, autoAck: true, consumer: consumer);
+
+        //    Console.WriteLine(" Press [enter] to exit.");
+        //    Console.ReadLine();
+        //}
     }
 }
