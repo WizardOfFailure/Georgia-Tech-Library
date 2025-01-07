@@ -1,7 +1,7 @@
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Cache.CacheManager;
-using Prometheus;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 //Prometheus monitoring
-app.UseHttpMetrics(options =>
+/*app.UseHttpMetrics(options =>
 
 {
 
@@ -38,11 +38,11 @@ app.UseHttpMetrics(options =>
 }    // Measure request count
 
 );
-
-app.UseMetricServer();
+*/
+//app.UseMetricServer();
 app.MapControllers();
-app.MapHealthChecks("/health");
-app.MapMetrics();
+//app.MapHealthChecks("/health");
+//app.MapMetrics();
 
 app.UseHttpsRedirection();
 

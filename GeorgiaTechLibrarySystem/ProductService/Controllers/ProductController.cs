@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PrometheusMonitoring;
+
 
 namespace ProductService.Controllers
 {
@@ -8,12 +8,12 @@ namespace ProductService.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly PerformanceMetricsService _metricsService;
+        //private readonly PerformanceMetricsService _metricsService;
 
-        public ProductController(ILogger<ProductController> logger, PerformanceMetricsService metricsService)
+        public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
-            _metricsService = metricsService;
+            //_metricsService = metricsService;
         }
         /*
         public IActionResult Index()
@@ -61,7 +61,6 @@ namespace ProductService.Controllers
         {
             ProductService productService = new ProductService();
             productService.ProducePublishSubscribeSagaMessage();
-            _metricsService.RecordRequest();
             return Accepted();
         }
 

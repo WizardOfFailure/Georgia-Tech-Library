@@ -1,28 +1,32 @@
 services:
   ocelotapigateway:
     image: ${DOCKER_REGISTRY-}ocelotapigateway
+    container_name: ocelot-gateway
     build:
       context: .
       dockerfile: OcelotApiGateway/Dockerfile
-
+    ports:
+    - "5000:5000"
   productservice:
     image: ${DOCKER_REGISTRY-}productservice
+    container_name: product-service
     build:
       context: .
       dockerfile: ProductService/Dockerfile
     ports:
-        - "7240:8081"
+        - "5240:8081"
     depends_on:
       - rabbitmq
 
 
   inventoryservice:
     image: ${DOCKER_REGISTRY-}inventoryservice
+    container_name: inventory-service
     build:
       context: .
       dockerfile: InventoryService/Dockerfile
     ports:
-        - "7054:8081"
+        - "5066:8081"
     depends_on:
       - rabbitmq
 
