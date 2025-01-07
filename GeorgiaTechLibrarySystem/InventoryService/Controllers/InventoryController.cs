@@ -19,24 +19,24 @@ namespace InventoryService.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Route("ReceiveMessage")]
-        public IActionResult Get()
-        {
-            InventoryService inventoryService = new InventoryService();
-            inventoryService.ReceiveMessage();
-            return Ok();
-        }
+        //[HttpGet]
+        //[Route("ReceiveMessage")]
+        //public IActionResult Get()
+        //{
+        //    InventoryService inventoryService = new InventoryService();
+        //    inventoryService.ReceiveMessage();
+        //    return Ok();
+        //}
 
 
-        [HttpGet]
-        [Route("ReceiveBasicMessage")]
-        public IActionResult GetBasicBook()
-        {
-            InventoryService inventoryService = new InventoryService();
-            inventoryService.ReceiveBasicMessage();
-            return Ok();
-        }
+        //[HttpGet]
+        //[Route("ReceiveBasicMessage")]
+        //public IActionResult GetBasicBook()
+        //{
+        //    InventoryService inventoryService = new InventoryService();
+        //    inventoryService.ReceiveBasicMessage();
+        //    return Ok();
+        //}
 
 
         [HttpGet]
@@ -54,7 +54,7 @@ namespace InventoryService.Controllers
         {
             InventoryService inventoryService = new InventoryService();
             inventoryService.ReceivePublishSubscribeSagaMessage();
-            _metricsService.RecordRequest();
+            //_metricsService.RecordRequest();
             return Ok();
         }
     }

@@ -10,7 +10,7 @@
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "ProductService_1",
+                    "Host": "ProductService",
                     "Port": 8081
                 }
             ],
@@ -55,7 +55,7 @@
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "ProductService_1",
+                    "Host": "ProductService",
                     "Port": 8081
                 }
             ],

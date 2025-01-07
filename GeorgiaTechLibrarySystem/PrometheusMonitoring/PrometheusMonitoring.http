@@ -1,6 +1,6 @@
 @PrometheusMonitoring_HostAddress = http://localhost:5036
 
-GET {{PrometheusMonitoring_HostAddress}}/weatherforecast/
+GET {{PrometheusMonitoring_HostAddress}}/prometheusmonitoring/
 Accept: application/json
 
 ###

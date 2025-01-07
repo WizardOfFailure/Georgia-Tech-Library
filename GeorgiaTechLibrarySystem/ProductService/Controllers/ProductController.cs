@@ -28,23 +28,23 @@ namespace ProductService.Controllers
             return Accepted(); //Change this
         }*/
 
-        [HttpPost]
-        [Route("SendMessage")]
-        public IActionResult PostMessage()
-        {
-            ProductService productService = new ProductService();
-            productService.ProduceMessage();
-            return Accepted(); //Change this
-        }
+        //[HttpPost]
+        //[Route("SendMessage")]
+        //public IActionResult PostMessage()
+        //{
+        //    ProductService productService = new ProductService();
+        //    productService.ProduceMessage();
+        //    return Accepted(); 
+        //}
 
-        [HttpPost]
-        [Route("SendBasicMessage")]
-        public IActionResult PostBasicMessage()
-        {
-            ProductService productService = new ProductService();
-            productService.ProduceBasicMessage();
-            return Accepted(); //Change this
-        }
+        //[HttpPost]
+        //[Route("SendBasicMessage")]
+        //public IActionResult PostBasicMessage()
+        //{
+        //    ProductService productService = new ProductService();
+        //    productService.ProduceBasicMessage();
+        //    return Accepted(); 
+        //}
 
         [HttpPost]
         [Route("SendPublishSubscribeMessage")]
@@ -52,7 +52,7 @@ namespace ProductService.Controllers
         {
             ProductService productService = new ProductService();
             productService.ProducePublishSubscribeMessage();
-            return Accepted(); //Change this
+            return Accepted(); 
         }
 
         [HttpPost]
@@ -62,7 +62,7 @@ namespace ProductService.Controllers
             ProductService productService = new ProductService();
             productService.ProducePublishSubscribeSagaMessage();
             _metricsService.RecordRequest();
-            return Accepted(); //Change this
+            return Accepted();
         }
 
     }
