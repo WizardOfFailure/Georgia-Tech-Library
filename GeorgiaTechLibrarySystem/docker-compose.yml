@@ -42,9 +42,6 @@ services:
       DATABASE_PASSWORD: "DpA0NU70m!p-ia2"
       DATABASE_NAME: inventoryservice_db
 
-
-
-
       
   rabbitmq:
     image: rabbitmq:3-management
@@ -79,6 +76,17 @@ services:
     volumes:
       - inventoryservice_data:/var/opt/mssql # Persist database files
 
+  searchbookservice-mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: searchbookservice-mssql_server
+    ports:
+      - "1436:1433" 
+    environment:
+      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+      MSSQL_SA_PASSWORD: "DpA0NU70m!p-ia5"
+    volumes:
+      - searchbookservice_data:/var/opt/mssql # Persist database files
+
 
   mssql:    
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -99,4 +107,6 @@ volumes:
     driver: local
   productservice_data:
     driver: local
+  searchbookservice_data:
+   driver: local
 
