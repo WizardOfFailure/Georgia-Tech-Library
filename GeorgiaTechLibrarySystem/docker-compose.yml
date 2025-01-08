@@ -7,6 +7,7 @@ services:
       dockerfile: OcelotApiGateway/Dockerfile
     ports:
     - "5000:5000"
+
   productservice:
     image: ${DOCKER_REGISTRY-}productservice
     container_name: product-service
@@ -17,6 +18,12 @@ services:
         - "5240:8081"
     depends_on:
       - rabbitmq
+    environment:
+      DATABASE_HOST: productservice-mssql_server
+      DATABASE_USER: sa
+      DATABASE_PASSWORD: "DpA0NU70m!p-ia3"
+      DATABASE_NAME: productservice_db 
+
 
 
   inventoryservice:
@@ -29,14 +36,77 @@ services:
         - "5066:8081"
     depends_on:
       - rabbitmq
+    environment:
+      DATABASE_HOST: inventoryservice-mssql_server
+      DATABASE_USER: sa
+      DATABASE_PASSWORD: "DpA0NU70m!p-ia2"
+      DATABASE_NAME: inventoryservice_db
 
+      
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672" # RabbitMQ messaging port
-      - "15672:15672" # RabbitMQ Management UI
+      - "5672:5672" 
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
       RABBITMQ_LOGS: =-
+
+  productservice-mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: productservice-mssql_server
+    ports:
+      - "1434:1433" 
+    environment:
+      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+      MSSQL_SA_PASSWORD: "DpA0NU70m!p-ia3"
+    volumes:
+      - productservice_data:/var/opt/mssql # Persist database files
+
+
+  inventoryservice-mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: inventoryservice-mssql_server
+    ports:
+      - "1435:1433" 
+    environment:
+      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+      MSSQL_SA_PASSWORD: "DpA0NU70m!p-ia2"
+    volumes:
+      - inventoryservice_data:/var/opt/mssql # Persist database files
+
+  searchbookservice-mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: searchbookservice-mssql_server
+    ports:
+      - "1436:1433" 
+    environment:
+      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+      MSSQL_SA_PASSWORD: "DpA0NU70m!p-ia5"
+    volumes:
+      - searchbookservice_data:/var/opt/mssql # Persist database files
+
+
+  mssql:    
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql_server
+    user: root
+    ports:
+      - "1433:1433"
+    environment:
+        ACCEPT_EULA: "Y"
+        MSSQL_SA_PASSWORD: "DpA0NU70m!p-ia"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:
+    driver: local
+  inventoryservice_data:
+    driver: local
+  productservice_data:
+    driver: local
+  searchbookservice_data:
+   driver: local
 
