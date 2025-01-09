@@ -13,97 +13,6 @@ namespace InventoryService
     public class InventoryService
     {
 
-        //public async void ReceiveMessage()
-        //{
-        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
-        //    var connection = await factory.CreateConnectionAsync();
-        //    var channel = await connection.CreateChannelAsync();
-
-        //    QueueDeclareOk queueDeclareResult = await channel.QueueDeclareAsync(queue: "Product_Queue", durable: true, exclusive: false, autoDelete: false,
-        //    arguments: null);
-
-        //    await channel.ExchangeDeclareAsync(exchange: "product_direct_exchange", type: ExchangeType.Direct);
-
-        //   // QueueDeclareOk queueDeclareResult = await channel.QueueDeclareAsync();
-
-        //    string queueName = queueDeclareResult.QueueName;
-
-        //    await channel.QueueBindAsync(queue: queueName, exchange: "product_direct_exchange", routingKey: "Product_Queue");
-
-        //    var consumer = new AsyncEventingBasicConsumer(channel);
-        //    consumer.ReceivedAsync += (model, ea) =>
-        //    {
-        //        byte[] body = ea.Body.ToArray();
-        //        var message = Encoding.UTF8.GetString(body);
-        //        var routingKey = ea.RoutingKey;
-        //        //Console.WriteLine($" [x] {message}");
-        //        //Console.WriteLine($" [x] Received '{routingKey}':'{message}'");
-        //        return Task.CompletedTask;
-        //    };
-
-        //    await channel.BasicConsumeAsync(queueName, autoAck: true, consumer: consumer);
-        //}
-
-        //public async void ReceiveBasicMessage()
-        //{
-        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
-        //    var connection = await factory.CreateConnectionAsync();
-        //    var channel = await connection.CreateChannelAsync();
-
-        //    await channel.QueueDeclareAsync(queue: "basicBookQueue", durable: false, exclusive: false, autoDelete: false,
-        //    arguments: null);
-
-        //    Console.WriteLine(" [*] Waiting for messages.");
-
-        //    var consumer = new AsyncEventingBasicConsumer(channel);
-        //    consumer.ReceivedAsync += (model, ea) =>
-        //    {
-        //        var body = ea.Body.ToArray();
-        //        var message = Encoding.UTF8.GetString(body);
-        //        Console.WriteLine($" [x] Received {message}");
-        //        return Task.CompletedTask;
-        //    };
-
-        //    await channel.BasicConsumeAsync("basicBookQueue", autoAck: true, consumer: consumer);
-
-        //    Console.WriteLine(" Press [enter] to exit.");
-        //    Console.ReadLine();
-        //}
-
-        //public async void ReceiveMessageReturnAck()
-        //{
-        //    var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
-        //    var connection = await factory.CreateConnectionAsync();
-        //    var channel = await connection.CreateChannelAsync();
-
-        //    await channel.QueueDeclareAsync(queue: "book_task_queue", durable: false, exclusive: false, autoDelete: false,
-        //    arguments: null);
-
-        //    Console.WriteLine(" [*] Waiting for messages.");
-
-        //    var consumer = new AsyncEventingBasicConsumer(channel);
-        //    consumer.ReceivedAsync += (model, ea) =>
-        //    {
-        //        var body = ea.Body.ToArray();
-        //        var message = Encoding.UTF8.GetString(body);
-        //        Console.WriteLine($" [x] Received {message}");
-        //        return Task.CompletedTask;
-        //    };
-
-        //    ulong Tag = 23;
-
-
-
-        //    await channel.BasicAckAsync(deliveryTag: Tag, multiple: false); //This makes sure if the consumer dies then the task is not lost
-
-        //    await channel.BasicConsumeAsync("book_task_queue", autoAck: false, consumer: consumer);
-
-
-
-        //    Console.WriteLine(" Press [enter] to exit.");
-        //    Console.ReadLine();
-        //}
-
         private const string ConnectionString = "Server=inventoryservice-mssql_server,1433;Database=Inventory;User Id=sa;Password=DpA0NU70m!p-ia2;Encrypt=false;";
 
         public async Task SaveBookToDatabaseAsync(Book book)
@@ -133,7 +42,6 @@ namespace InventoryService
             }
         }
 
-        //Make this method delete by book id
         public async Task DeleteBookFromDatabaseAsync(Book book)
         {
             try
@@ -217,19 +125,19 @@ namespace InventoryService
 
                 //Json deserializer
                 Book deserializedBook = BookDeserializer(message);
-                //Insert Book database
+
                 await SaveBookToDatabaseAsync(deserializedBook);
 
 
 
 
-                // Simulate inventory update
+
                 bool inventoryUpdated = UpdateInventory(message);
 
                 if (!inventoryUpdated)
                 {
                     await DeleteBookFromDatabaseAsync(deserializedBook);
-                    // Publish compensation event
+
                     await channel.ExchangeDeclareAsync(exchange: "saga_compensation", type: ExchangeType.Fanout);
                     var compensationMessage = "Revert book addition";
                     var compensationBody = Encoding.UTF8.GetBytes(compensationMessage);
@@ -264,7 +172,6 @@ namespace InventoryService
         {
             Console.WriteLine($" [x] Updating inventory for: {message}");
 
-            // Simulate success or failure
             bool isSuccess = new Random().Next(0, 2) == 1;
 
             if (!isSuccess)
