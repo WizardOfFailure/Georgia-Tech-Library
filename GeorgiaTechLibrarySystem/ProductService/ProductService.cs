@@ -148,7 +148,7 @@ namespace ProductService
         }
 
 
-        public async void ProducePublishSubscribeSagaMessage()
+        public async void ProducePublishSubscribeSagaMessage(Book book)
         {
             var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
             var connection = await factory.CreateConnectionAsync();
@@ -158,14 +158,14 @@ namespace ProductService
             await channel.ExchangeDeclareAsync(exchange: "saga_books", type: ExchangeType.Fanout);
 
             // Create a book object
-            var book = new Book
+            /*var book = new Book
             {
                 BookId = Guid.NewGuid(),
                 Title = "The Great Gatsby",
                 Author = "F. Scott Fitzgerald",
                 Quantity = 1
             };
-
+            */
             await SaveBookToDatabaseAsync(book);
 
             // Serialize book object to JSON
