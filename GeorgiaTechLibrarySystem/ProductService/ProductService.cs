@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
-
+using System.Data.SqlClient;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -11,6 +11,7 @@ namespace ProductService
 {
     public class ProductService
     {
+        private const string ConnectionString = "Server=localhost, 1434;Database=ProductDB;User Id=sa;Password=your_password;";
         /*public void HandleBookAdded(BookAddedEvent event){
 
             var productStatus = event.S
