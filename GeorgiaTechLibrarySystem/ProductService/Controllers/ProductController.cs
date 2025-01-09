@@ -26,15 +26,10 @@ namespace ProductService.Controllers
 
         [HttpPost]
         [Route("SendPublishSubscribeSagaMessage")]
-        public IActionResult PostPublishSubsribeSagaMessage([FromBody] Book book)
+        public IActionResult PostPublishSubsribeSagaMessage()
         {
-            if (book == null)
-            {
-                return BadRequest("Invalid JSON payload.");
-            }
-
             ProductService productService = new ProductService();
-            productService.ProducePublishSubscribeSagaMessage(book);
+            productService.ProducePublishSubscribeSagaMessage();
             return Accepted();
         }
 
