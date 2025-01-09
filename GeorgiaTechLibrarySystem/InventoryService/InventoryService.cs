@@ -4,6 +4,9 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.ObjectPool;
+using System.Text.Json;
 
 namespace InventoryService
 {
@@ -89,7 +92,7 @@ namespace InventoryService
 
         //    ulong Tag = 23;
 
-           
+
 
         //    await channel.BasicAckAsync(deliveryTag: Tag, multiple: false); //This makes sure if the consumer dies then the task is not lost
 
@@ -100,6 +103,66 @@ namespace InventoryService
         //    Console.WriteLine(" Press [enter] to exit.");
         //    Console.ReadLine();
         //}
+
+        private const string ConnectionString = "Server=inventoryservice-mssql_server,1433;Database=Inventory;User Id=sa;Password=DpA0NU70m!p-ia2;Encrypt=false;";
+
+        public async Task SaveBookToDatabaseAsync(Book book)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    await connection.OpenAsync();
+
+                    var query = "INSERT INTO Book (Title, Author, Quantity) VALUES (@Title, @Author, @Quantity)";
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Title", book.Title);
+                        command.Parameters.AddWithValue("@Author", book.Author);
+                        command.Parameters.AddWithValue("@Quantity", book.Quantity);
+
+                        await command.ExecuteNonQueryAsync();
+                        Console.WriteLine("Book saved to database successfully.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while saving the book to the database: {ex.Message}");
+            }
+        }
+
+        //Make this method delete by book id
+        public async Task DeleteBookFromDatabaseAsync(Book book)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    await connection.OpenAsync();
+
+                    var query = "DELETE FROM Book WHERE Id = (SELECT TOP 1 Id FROM Book ORDER BY Id DESC)";
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        var rowsAffected = await command.ExecuteNonQueryAsync();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Last inserted book deleted from database successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No books found to delete.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting the last inserted book from the database: {ex.Message}");
+            }
+        }
 
         public async void ReceivePublishSubscribeMessage()
         {
@@ -152,11 +215,20 @@ namespace InventoryService
                 var message = Encoding.UTF8.GetString(body);
                 Console.WriteLine($" [x] Received {message}");
 
+                //Json deserializer
+                Book deserializedBook = BookDeserializer(message);
+                //Insert Book database
+                await SaveBookToDatabaseAsync(deserializedBook);
+
+
+
+
                 // Simulate inventory update
                 bool inventoryUpdated = UpdateInventory(message);
 
                 if (!inventoryUpdated)
                 {
+                    await DeleteBookFromDatabaseAsync(deserializedBook);
                     // Publish compensation event
                     await channel.ExchangeDeclareAsync(exchange: "saga_compensation", type: ExchangeType.Fanout);
                     var compensationMessage = "Revert book addition";
@@ -172,6 +244,20 @@ namespace InventoryService
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
+        }
+
+        public Book BookDeserializer(string book)
+        {
+            Book books = JsonSerializer.Deserialize<Book>(book);
+            
+            if (books == null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+            else
+            {
+                return books;
+            }
         }
 
         private bool UpdateInventory(string message)
