@@ -90,7 +90,7 @@ namespace ProductService
         }
 
 
-        public async void ProducePublishSubscribeSagaMessage()
+        public async void ProducePublishSubscribeSagaMessage(Book book)
         {
             var factory = new ConnectionFactory { HostName = "host.docker.internal", UserName = "user", Password = "password", Port = 5672 };
             var connection = await factory.CreateConnectionAsync();
